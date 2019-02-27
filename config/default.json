@@ -1,0 +1,32 @@
+{
+  "db": {
+    "type": "mongodb",
+    "url": "mongodb://localhost:27017",
+    "name": "sodium",
+    "source_collection": "sodium_collection",
+    "aggregation_collection_prefix": "aggr_",
+    "aggregation_collection_suffix": {
+      "day": "day",
+      "hour": "hour",
+      "service": "service",
+      "isp": "isp",
+      "country": "country",
+      "subdivision": "subdivision"
+    },
+    "stats_collection": "stats_collection"
+  },
+  "qoe": {
+    "timeout": 86400000
+  },
+  "interval": {
+    "aggregate": 86400000,
+    "update": 10000,
+    "insert": 300000,
+    "remove": 600000,
+    "stats": 300000
+  },
+  "file": {
+    "city": "../location_data/GeoIP2-City.mmdb",
+    "ISP": "../location_data/GeoIP2-ISP.mmdb"
+  }
+}
