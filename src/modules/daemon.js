@@ -28,7 +28,7 @@ class Daemon {
 
         let from;
         if (this.lastInserted)
-            from = new Date(to.getTime() - this.options.aggregateInterval)
+            from = new Date(Math.floor((to.getTime() - this.options.aggregateInterval) / (1000 * 60 * 60)) * 1000 * 60 * 60);
         else
             from = new Date(0);
 
