@@ -24,7 +24,7 @@ const { version } = require('./package.json');
 const MODE_NAME_DAEMON = 'daemon';
 const MODE_NAME_UPDATE = 'update';
 const MODE_NAME_INSERT = 'insert';
-const MODE_NAME_REMOVE = 'remvoe';
+const MODE_NAME_REMOVE = 'remove';
 const MODE_NAME_STATS = 'stats';
 
 const options = {};
