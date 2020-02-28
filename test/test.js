@@ -9,48 +9,52 @@ const config = require('config');
 const { LocationFinder, ISPFinder, ServiceName } = require('qoe-lib');
 
 describe('Aggregator Test', () => {
-  it('LocationFinder normal:', () => {
+  it('LocationFinder normal:', async () => {
     const address = '182.171.253.140';
 
     const v = {
       'country': 'JP',
       'subdivision': '13'
     }
-    const r = new LocationFinder(config.get('file.city')).find(address);
+    const finder = new LocationFinder(config.get('file.city'));
+    const r = await finder.find(address);
     assert.equal(v.country, r.country);
     assert.equal(v.subdivision, r.subdivision);
   });
 
-  it('LocationFinder null:', () => {
+  it('LocationFinder null:', async () => {
     const address = '172.27.200.113';
 
     const v = {
       'country': '--',
       'subdivision': '0'
     }
-    const r = new LocationFinder(config.get('file.city')).find(address);
+    const finder = new LocationFinder(config.get('file.city'));
+    const r = await finder.find(address);
     assert.equal(v.country, r.country);
     assert.equal(v.subdivision, r.subdivision);
   });
 
 
-  it('LocationFinder sub null:', () => {
+  it('LocationFinder sub null:', async () => {
     const address = '150.66.69.159';
 
     const v = {
       'country': 'JP',
       'subdivision': '0'
     }
-    const r = new LocationFinder(config.get('file.city')).find(address);
+    const finder = new LocationFinder(config.get('file.city'));
+    const r = await finder.find(address);
     assert.equal(v.country, r.country);
     assert.equal(v.subdivision, r.subdivision);
   });
 
-  it('ISPFinder normal', () => {
+  it('ISPFinder normal', async () => {
     const address = '182.171.253.140';
 
     const v = 'Sony Network Communications';
-    const r = new ISPFinder(config.get('file.ISP')).find(address);
+    const finder = new ISPFinder(config.get('file.ISP'));
+    const r = await finder.find(address);
     assert.equal(r, v);
   });
 
@@ -59,9 +63,10 @@ describe('Aggregator Test', () => {
       'https://m.youtube.com/watch?v=q7fDTjZ9hJY',
       'https://www.paravi.jp/watch/10534',
       'https://tver.jp/corner/f0028338',
+      'http://pr.iij.ad.jp/live/',
       'https://docs.mongodb.com/manual'];
 
-    const v = ['youtube', 'youtube', 'paravi', 'tver', 'unknown'];
+    const v = ['youtube', 'youtube', 'paravi', 'tver', 'twilight_concert', 'unknown'];
 
     hosts.forEach((e, i) => {
       assert.equal(v[i], ServiceName.find(e));

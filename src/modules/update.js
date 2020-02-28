@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-unresolved
-const { ServiceName } = require('qoe-lib');
+// const { ServiceName } = require('qoe-lib');
 
 class Update {
     constructor(wrapper, finder, options) {
@@ -28,7 +28,7 @@ class Update {
                         '$lt': end.getTime()
                     }
                 },
-                { 'service': { '$exists': false } },
+                // { 'service': { '$exists': false } },
                 { 'country': { '$exists': false } },
                 { 'subdivision': { '$exists': false } },
                 { 'isp': { '$exists': false } }
@@ -46,22 +46,22 @@ class Update {
             if (e.remote_address && e.location) {
                 update.push((async () => {
                     const { country, subdivision } = this.finder.location.find(e.remote_address);
-                    const isp = this.finder.isp.find(e.remote_address);
-                    const service = ServiceName.find(e.location);
+                    const isp = await this.finder.isp.find(e.remote_address);
+                    // const service = ServiceName.find(e.location);
                     const ret = await collection.updateOne(
                         {
                             // eslint-disable-next-line no-underscore-dangle
                             '_id': e._id
                         }, {
-                            '$set': {
-                                'country': country,
-                                'subdivision': subdivision,
-                                'isp': isp,
-                                'service': service
-                            }
-                        }, {
-                            'upsert': false
+                        '$set': {
+                            'country': country,
+                            'subdivision': subdivision,
+                            'isp': isp,
+                            // 'service': service
                         }
+                    }, {
+                        'upsert': false
+                    }
                     );
                     stats.matched += ret.matchedCount;
                     stats.modified += ret.modifiedCount;
@@ -112,16 +112,16 @@ class Update {
                         // eslint-disable-next-line no-underscore-dangle
                         '_id': e._id
                     }, {
-                        '$unset': {
-                            'country': '',
-                            'subdivision': '',
-                            'city': '',
-                            'isp': '',
-                            'service': '',
-                        }
-                    }, {
-                        'upsert': false
+                    '$unset': {
+                        'country': '',
+                        'subdivision': '',
+                        'city': '',
+                        'isp': '',
+                        // 'service': '',
                     }
+                }, {
+                    'upsert': false
+                }
                 );
             }
         });
