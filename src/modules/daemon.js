@@ -14,8 +14,6 @@ class Daemon {
 
         this.insertTimer = null;
         this.statsTimer = null;
-
-        this.lastInserted = null;
     }
 
     start() {
@@ -25,16 +23,9 @@ class Daemon {
 
     async insertProc() {
         const to = new Date();
-
-        let from;
-        if (this.lastInserted)
-            from = new Date(Math.floor((to.getTime() - this.options.aggregateInterval) / (1000 * 60 * 60)) * 1000 * 60 * 60);
-        else
-            from = new Date(0);
+        const from = new Date(Math.floor((to.getTime() - this.options.aggregateInterval) / (1000 * 60 * 60)) * 1000 * 60 * 60);
 
         const stats = await this.insert.insert(from, to);
-
-        this.lastInserted = from;
 
         // eslint-disable-next-line no-console
         console.log(`Insert ${stats.matched} documents matched, ${stats.modified} documents updated, ${stats.insert} documents inserted. [${
