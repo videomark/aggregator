@@ -64,7 +64,7 @@ AggregatorはQoE値を、時、日、service、country、subdivison、ispごと�
 # 動作確認環境
 
 -   OS: Ubuntu 16.04
--   Node: v8.12.0
+-   Node: v12.16.0
 
 # 構成
 
