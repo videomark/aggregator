@@ -67,9 +67,9 @@ class Update {
               },
               {
                 $set: {
-                  country: country,
-                  subdivision: subdivision,
-                  isp: isp,
+                  country,
+                  subdivision,
+                  isp,
                   // 'service': service
                 },
               },
