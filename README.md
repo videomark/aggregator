@@ -1,48 +1,48 @@
 # Aggregator
 
-AggregatorはQoE値を、時、日、service、country、subdivison、ispごとに集計するnodeアプリケーションです。
+Aggregator は QoE 値を、時、日、service、country、subdivison、isp ごとに集計する node アプリケーションです。
 
-以下の4つのモードがあります。
+以下の 4 つのモードがあります。
 
--   daemon
+- daemon
 
-    デーモンとして動作し、以下のモードの処理を定期的に行います。
+  デーモンとして動作し、以下のモードの処理を定期的に行います。
 
--   update
+- update
 
-    update モードは、DBのコレクション(sodium_collection)のremote_addressを取得し、MaxMindのDBで各値を検索し、service、country、subdivison、ispフィールドを追加します。
+  update モードは、DB のコレクション(sodium_collection)の remote_address を取得し、MaxMind の DB で各値を検索し、service、country、subdivison、isp フィールドを追加します。
 
--   insert
+- insert
 
-    insert モードは、DBのコレクション(sodium_collection)を時、日、service、country、subdivison、ispごとに集計します。
+  insert モードは、DB のコレクション(sodium_collection)を時、日、service、country、subdivison、isp ごとに集計します。
 
--   remove
+- remove
 
-    remove モードは、DBのコレクション(sodium_collection)内のQoE値の取得にタイムアウトしたドキュメントを削除します。
+  remove モードは、DB のコレクション(sodium_collection)内の QoE 値の取得にタイムアウトしたドキュメントを削除します。
 
 # 集計カテゴリ
 
--   サービス 
+- サービス
 
-    TVer、Paravi、Youtubeなど
+  TVer、Paravi、Youtube など
 
--   地域
+- 地域
 
-    -   国  
+  - 国
 
-        'JP' などの2文字のアルファベット
+    'JP' などの 2 文字のアルファベット
 
-    -   都道府県
+  - 都道府県
 
-        13(東京) などのコード
+    13(東京) などのコード
 
--   ISP
+- ISP
 
-    'Internet Initiative Japan'などのサービス名
+  'Internet Initiative Japan'などのサービス名
 
--   時間
-    -   日  日付
-    -   時  時刻
+- 時間
+  - 日 日付
+  - 時 時刻
 
 # データ欠損について
 
@@ -50,27 +50,28 @@ AggregatorはQoE値を、時、日、service、country、subdivison、ispごと�
 
 上記の欠損データは、通常のデータとして取り扱うため以下の値を欠損値とします。
 
-| カテゴリ | 値       |
-| ---- | ------- |
+| カテゴリ | 値      |
+| -------- | ------- |
 | サービス | unknown |
-| 国    | --      |
+| 国       | --      |
 | 都道府県 | 0       |
-| ISP  | unknown |
+| ISP      | unknown |
 
 # 使用フレームワーク
 
--   MongoDB
+- MongoDB
 
 # 動作確認環境
 
--   OS: Ubuntu 16.04
--   Node: v12.16.0
+- OS: Ubuntu 16.04
+- Node: v12.16.0
 
 # 構成
 
     Aggregator  <--->  MongoDB
 
 # インストールと起動
+
 ```
 $ cd Aggregator
 $ npm install
@@ -93,7 +94,7 @@ Commands:
 
 # 設定ファイル
 
-設定ファイルは、jsonフォーマットです。config/default.jsonを書き換えることで変更することができます。 設定は、nodeのconfigモジュールを使用しています。起動時の環境変数を変更することで設定をオーバーライドすることができます。
+設定ファイルは、json フォーマットです。config/default.json を書き換えることで変更することができます。 設定は、node の config モジュールを使用しています。起動時の環境変数を変更することで設定をオーバーライドすることができます。
 
 <https://github.com/lorenwest/node-config>
 
@@ -148,7 +149,7 @@ Commands:
 
 ## daemon モード
 
-daemon モードは、デーモンとして動作し、以下のモードの処理を定期的に行います。--update_interval、--insert_interval、--remove_intervalで指定した間隔で処理を実行します。また、--aggregate_intervalは、対象のドキュメントを検索する際に使用し、デフォルトでは、処理開始時刻の1日前から処理開始時刻までの値に視聴を開始したドキュメントに対して行われます。
+daemon モードは、デーモンとして動作し、以下のモードの処理を定期的に行います。--update_interval、--insert_interval、--remove_interval で指定した間隔で処理を実行します。また、--aggregate_interval は、対象のドキュメントを検索する際に使用し、デフォルトでは、処理開始時刻の 1 日前から処理開始時刻までの値に視聴を開始したドキュメントに対して行われます。
 
     daemon mode: monitors the DB, adds fields, and performs aggregation.
 
@@ -167,8 +168,8 @@ daemon モードは、デーモンとして動作し、以下のモードの処�
 
 ## update モード
 
-update モードは、DBのコレクション(sodium_collection)のremote_addressを取得し、MaxMindのDBで各値を検索し、service、country、subdivison、ispフィールドを追加します。
-\--start_time、--end_timeオプションで時刻を指定すると範囲内のドキュメントを対象に更新処理を行います。また、--remove_fieldsを指定すると追加したフィールドをすべて削除します。
+update モードは、DB のコレクション(sodium_collection)の remote_address を取得し、MaxMind の DB で各値を検索し、service、country、subdivison、isp フィールドを追加します。
+\--start_time、--end_time オプションで時刻を指定すると範囲内のドキュメントを対象に更新処理を行います。また、--remove_fields を指定すると追加したフィールドをすべて削除します。
 
     Usage: update|u [options]
 
@@ -185,21 +186,21 @@ update モードは、DBのコレクション(sodium_collection)のremote_addres
 
 ## insert モード
 
-insert モードは、DBのコレクション(sodium_collection)を時、日、service、country、subdivison、ispごとに集計します。集計結果は各コレクションに追加されます。--start_time、--end_timeオプションで時刻を指定すると範囲内のドキュメントを対象に集計処理を行います。また、--remove_aggregation_collectionを指定すると集計結果をすべて削除します。
+insert モードは、DB のコレクション(sodium_collection)を時、日、service、country、subdivison、isp ごとに集計します。集計結果は各コレクションに追加されます。--start_time、--end_time オプションで時刻を指定すると範囲内のドキュメントを対象に集計処理を行います。また、--remove_aggregation_collection を指定すると集計結果をすべて削除します。
 
 作成されるコレクション
 | 名前 | 値 |
 |---|---|
-| aggr_day                  |日毎の集計結果|
-| aggr_hour                 |時毎の集計結果|
-| aggr_service_day          |service、日毎の集計結果|
-| aggr_service_hour         |service、時毎の集計結果|
-| aggr_country_day          |country、日毎の集計結果|
-| aggr_country_hour         |country、時毎の集計結果|
-| aggr_subdivision_day      |subdivision、日毎の集計結果|
-| aggr_subdivision_hour     |subdivision、時毎の集計結果|
-| aggr_isp_day              |isp、日毎の集計結果|
-| aggr_isp_hour             |isp、時毎の集計結果|
+| aggr_day |日毎の集計結果|
+| aggr_hour |時毎の集計結果|
+| aggr_service_day |service、日毎の集計結果|
+| aggr_service_hour |service、時毎の集計結果|
+| aggr_country_day |country、日毎の集計結果|
+| aggr_country_hour |country、時毎の集計結果|
+| aggr_subdivision_day |subdivision、日毎の集計結果|
+| aggr_subdivision_hour |subdivision、時毎の集計結果|
+| aggr_isp_day |isp、日毎の集計結果|
+| aggr_isp_hour |isp、時毎の集計結果|
 
     Usage: insert|i [options]
 
@@ -215,7 +216,7 @@ insert モードは、DBのコレクション(sodium_collection)を時、日、s
 
 ## remove モード
 
-remove モードは、DBのコレクション(sodium_collection)内のQoE値の取得にタイムアウトしたドキュメントを削除します。--timeoutでタイムアウト時間を指定します。
+remove モードは、DB のコレクション(sodium_collection)内の QoE 値の取得にタイムアウトしたドキュメントを削除します。--timeout でタイムアウト時間を指定します。
 
     Usage: remvoe|r [options]
 
