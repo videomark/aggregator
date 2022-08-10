@@ -51,7 +51,7 @@ describe("Aggregator Test", () => {
   it("ISPFinder normal", async () => {
     const address = "182.171.253.140";
 
-    const v = "Sony Network Communications";
+    const v = "So-net";
     const finder = new ISPFinder(config.get("file.ISP"));
     const r = await finder.find(address);
     assert.equal(r, v);
@@ -72,7 +72,7 @@ describe("Aggregator Test", () => {
       "youtube",
       "paravi",
       "tver",
-      "twilight_concert",
+      "iijtwilightconcert",
       "unknown",
     ];
 
