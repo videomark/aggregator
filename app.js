@@ -2,8 +2,7 @@
 
 /* eslint-disable no-console */
 
-// eslint-disable-next-line import/no-unresolved
-const program = require("commander");
+const { program } = require("commander");
 // eslint-disable-next-line import/no-unresolved
 const config = require("config");
 // eslint-disable-next-line import/no-unresolved
@@ -361,6 +360,9 @@ program
 
 // --- options --- //
 program.parse(process.argv);
+// NOTE: commander v7 以降コマンドのプロパティとして保存されないのでその対処
+Object.assign(program, program.opts());
+
 if (program.args.length === 0 || !options.mode) {
   program.help();
 }
